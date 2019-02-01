@@ -1,12 +1,12 @@
 <?php
-
+include_once("../config.php");
 if (!empty($_POST) && !empty($_POST["loginMail"]) && !empty($_POST["loginPassword"])) {
 
     //connect to database
     $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASSWORD);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     //get user by email and password
-    $stmt = $conn->prepare("SELECT id, username, email FROM users 
+    $stmt = $conn->prepare("SELECT user_id, nick, email FROM user 
                                       WHERE email= :email and password = :password");
     $stmt->bindParam(':email', $_POST["loginMail"]);
     $stmt->bindParam(':password', $_POST["loginPassword"]);
@@ -16,10 +16,10 @@ if (!empty($_POST) && !empty($_POST["loginMail"]) && !empty($_POST["loginPasswor
         echo "user not found";
     } else {
         echo "you are logged in. Your ID is: " . $user["id"];
-        $_SESSION["user_id"] = $user["id"];
-        $_SESSION["username"] = $user["username"];
+        $_SESSION["user_id"] = $user["user_id"];
+        $_SESSION["username"] = $user["nick"];
         $_SESSION["email"] = $user["email"];
-        header("Location:" . BASE_URL);
+        header("Location: ../index.php");
     }
 
 } else if (!empty($_POST)) {
