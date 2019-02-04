@@ -1,21 +1,19 @@
 <div class="footer-wide">
     <section>
         <h4>Kontakt</h4>
-        <address>Softbit software s.r.o.<br>
-            Nad Dubinkou 1634<br>
-            516 01 Rychnov nad Kněžnou<br><br>
-            Tel: +420 777 666 555<br>
-            Email: <a href="mailto:softbit@softbit.cz">
-                sotfbit@softbit.cz</a><br>
+        <address>Honza Tech Tips s.r.o.<br>
+            Dr.Beneše 756<br>
+            290 01 Poděbrady<br><br>
+            Tel: +420 123 456 789<br>
+            Email: <a href="mailto:honza@htechtips.cz">
+                Honza@HTechTips.cz</a><br>
         </address>
     </section>
-    <section style="position: ">
+    <section id="copyright">
         <p>
             ©
-            <a href="https://www.softbit.cz/">Softbit software s.r.o.</a>
-            <?= 2018 ?>
-            -
-            <?php echo date("Y"); ?>
+            <a href="http://localhost/HonzaBlog">Honza Tech Tips s.r.o.</a>
+            <?php echo "2018 - " . date("Y"); ?>
         </p>
     </section>
 </div>

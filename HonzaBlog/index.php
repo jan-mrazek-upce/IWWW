@@ -1,5 +1,12 @@
 <?php
-include_once("./config.php");
+ob_start();
+session_start();
+include_once "./config.php";
+
+spl_autoload_register(function ($class) {
+    include './class/' . $class . '.php';
+});
+
 ?>
 
 <!DOCTYPE html>
@@ -7,7 +14,7 @@ include_once("./config.php");
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
-    <!--<link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="css/css.css">
     <link rel="stylesheet" type="text/css" href="css/responsive.css">
     -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,53 +28,46 @@ include_once("./config.php");
 
 
 <header>
+
     <?php
     include("./page/header.php");
     ?>
+
 </header>
 
+<nav>
+
+    <?php
+    include "./page/categories.php"
+    ?>
+
+</nav>
+
 <main>
-    <nav id="tabs-holder">
-        <?php
-        $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $category = "";
-        if (isset($_SESSION['username'])) {
-            $sql = "SELECT tag_name FROM tag where tag_id in (select tag_tag_id from user_has_tag where user_user_id='" . $_SESSION['user_id'] . "') order by ASC ";
-            $res = mysqli_query($conn, $sql) or die(mysqli_error());
 
-            if (mysqli_num_rows($res) > 0) {
-                echo "<h3 class='categories'>My categories</h3>";
-
-                while ($row = mysqli_fetch_assoc($res)) {
-                    $tag_name = $row['tag_name'];
-                    $category .= "<li><a href=''>$tag_name</a></li>";
-                }
-                echo $category;
-                $category = "";
-            }
+    <?php
+    if (isset($_GET['page'])) {
+        $file = "./page/" . $_GET["page"] . ".php";
+        if (file_exists($file)) {
+            include $file;
+        } else {
+            include "./page/404.php";
         }
-
-        $sql = "SELECT tag_name FROM tag order by tag_name ASC";
-        $res = mysqli_query($conn, $sql) or die(mysqli_error());
-
-        if (mysqli_num_rows($res) > 0) {
-            echo "<h3 class='categories'>All categories</h3>";
-
-            while ($row = mysqli_fetch_assoc($res)) {
-                $tag_name = $row['tag_name'];
-                $category .= "<li><a href=''>$tag_name</a></li>";
-            }
-            echo $category;
-        }
-        ?>
-    </nav>
+    } else {
+        if (Authentication::getInstance()->hasIdentity()) :
+            echo "<h2>Je prihlasen " . Authentication::getInstance()->getIdentity()["username"] . "</h2>";
+        else : ?>
+            <h2>Nikdo neni prihlasen</h2>
+        <?php endif;
+    }
+    ?>
 
 
-    <div class="ar-holder">
-        <?php
-        include("./page/article_list.php");
-        ?>
-    </div>
+    <?php
+    include("./page/article_list.php");
+    ?>
+
+
 </main>
 
 <footer>

@@ -1,31 +1,22 @@
+<h1>Login</h1>
+
 <?php
-include_once("../config.php");
+#include_once "../config.php";
+#spl_autoload_register(function($class) {
+#   include '../class/' . $class . '.php';
+#});
+
 if (!empty($_POST) && !empty($_POST["loginMail"]) && !empty($_POST["loginPassword"])) {
-
-    //connect to database
-    $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASSWORD);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //get user by email and password
-    $stmt = $conn->prepare("SELECT user_id, nick, email FROM user 
-                                      WHERE email= :email and password = :password");
-    $stmt->bindParam(':email', $_POST["loginMail"]);
-    $stmt->bindParam(':password', $_POST["loginPassword"]);
-    $stmt->execute();
-    $user = $stmt->fetch();
-    if (!$user) {
-        echo "user not found";
+    $authService = Authentication::getInstance();
+    if ($authService->login($_POST["loginMail"], $_POST["loginPassword"])) {
+        header("Location:" . BASE_URL);
+        exit;
     } else {
-        echo "you are logged in. Your ID is: " . $user["id"];
-        $_SESSION["user_id"] = $user["user_id"];
-        $_SESSION["username"] = $user["nick"];
-        $_SESSION["email"] = $user["email"];
-        header("Location: ../index.php");
+        echo "User not found";
     }
-
 } else if (!empty($_POST)) {
     echo "Username and password are required";
 }
-
 
 ?>
 

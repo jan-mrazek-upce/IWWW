@@ -84,22 +84,22 @@ header nav a:hover {
 
 /*Menu s kategoriemi*/
 #tabs-holder {
-    height: 100%; /* 100% Full-height */
-    width: 10%; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 12%; /* Stay at the top */
+    height: 100%;
+    width: 10%;
+    position: fixed;
+    z-index: 1;
+    top: 12%;
     left: 0;
-    background-color: #F5F5F5; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    background-color: #F5F5F5;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
 }
 
 #tabs-holder a {
     padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 16px;
+    text-decoration: black;
+    font-size: px;
     color: #000000;
     display: block;
     transition: 0.3s;
@@ -127,9 +127,7 @@ header nav a:hover {
 }
 
 /*Clanky*/
-article {
 
-}
 
 
 .full-width-wrapper, main {

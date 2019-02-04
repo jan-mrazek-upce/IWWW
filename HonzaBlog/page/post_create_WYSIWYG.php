@@ -29,12 +29,8 @@ if (isset($_POST['post'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WYSIWYG Example</title>
-    <link rel="stylesheet" href="https://cdn.rawgit.com/Alex-D/Trumbowyg/2.0.0-beta.7/dist/ui/trumbowyg.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../css/layout.css">
-    <link rel="stylesheet" type="text/css" href="../css/responsive.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HTT - Create Article</title>
+
 </head>
 <body>
 <header>
@@ -42,35 +38,36 @@ if (isset($_POST['post'])) {
     include("./header.php")
     ?>
 </header>
-<h1>This is WYSIWYG Example</h1>
-<form action="post_create.php" method="post" enctype="multipart/form-data">
-    <input placeholder="Title" name="title" type="text" autofocus size="48"><br><br>
-    <textarea id="content-form" placeholder="Content" name="content" rows="20" cols="50"></textarea><br>
-    <a style="margin: 5px; padding: 5px; background-color: #4a4a4a; color: white"
-       onclick="myFunction();">BUTTON</a>
+<form action="" method="post">
+    <textarea name="editor1"></textarea>
+
+    <input type="submit" value="vlozit">
 </form>
-
-
-<form>
-    <textarea id="form-description"></textarea>
-    <p id="preview"></p>
-    <a style="margin: 5px; padding: 5px; background-color: #4a4a4a; color: white"
-       onclick="myFunction();">BUTTON</a>
-</form>
-
-<p id="convertedText">[PLACEHOLDER]</p>
-
-<script>
-    function myFunction() {
-        document.getElementById("content").innerHTML = document.getElementById("content-form").value;
+<?php
+if (isset($_POST['editor1'])) {
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-</script>
+    $text = $_POST['editor1'];
+    $sql = ("INSERT INTO semestralka.aktuality (text,datum_vytvoreni)  VALUES ('" . $_POST["editor1"] . "', now())");
+
+    if ($conn->query($sql) === TRUE) {
+        $message_login = 'text úspěšně přidán.';
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    echo $message_login;
+}
 
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.rawgit.com/Alex-D/Trumbowyg/2.0.0-beta.7/dist/trumbowyg.min.js"></script>
+?>
+
+
+
 <script>
-    $('#content-form').trumbowyg();
+    CKEDITOR.replace('editor1');
 </script>
 </body>
 </html>
